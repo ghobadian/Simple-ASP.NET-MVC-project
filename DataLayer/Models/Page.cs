@@ -27,9 +27,9 @@ namespace DataLayer
         [Display(Name = "متن")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Text { get; set; }
-        [Display(Name = "")]
-        public int Visit { get; set; }
         [Display(Name = "تعداد بازدید")]
+        public int Visit { get; set; }
+        [Display(Name = "متن عکس")]
         public string ImageName { get; set; }
         [Display(Name = "نشان در اسلایدر")]
         public bool ShowInSlider { get; set; }

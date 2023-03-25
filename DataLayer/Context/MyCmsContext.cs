@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace DataLayer
         public DbSet<PageGroup> PageGroups { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<PageComment> PageComments { get; set; }
+        public DbSet<AdminLogin> AdminLogins { get; set; }
     }
 }

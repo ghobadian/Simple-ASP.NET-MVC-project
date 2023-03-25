@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,6 +11,7 @@ using DataLayer;
 
 namespace MyCms.Areas.Admin.Controllers
 {
+    [Authorize]
     public class PagesController : Controller
     {
         private readonly IPageRepository pageRepository;
@@ -22,10 +24,8 @@ namespace MyCms.Areas.Admin.Controllers
             pageGroupRepository = new PageGroupRepository(db);
         }
 
-        // GET: Admin/Pages
         public ActionResult Index() => View(pageRepository.GetAll());
 
-        // GET: Admin/Pages/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,14 +40,12 @@ namespace MyCms.Areas.Admin.Controllers
             return View(page);
         }
 
-        // GET: Admin/Pages/Create
         public ActionResult Create()
         {
             ViewBag.GroupId = new SelectList(pageGroupRepository.GetAll(), "GroupID", "GroupTitle");
             return View();
         }
 
-        // POST: Admin/Pages/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -58,6 +56,13 @@ namespace MyCms.Areas.Admin.Controllers
             {
                 page.CreateDate = DateTime.Now;
                 page.Visit = 0;
+
+                if(imgUp != null)
+                {
+                    page.ImageName = Guid.NewGuid() + Path.GetExtension(imgUp.FileName);
+                    imgUp.SaveAs(Server.MapPath("/PageImages/" + page.ImageName));
+                }
+
                 pageRepository.InsertPage(page);
                 pageRepository.Save();
                 return RedirectToAction("Index");
@@ -67,7 +72,6 @@ namespace MyCms.Areas.Admin.Controllers
             return View(page);
         }
 
-        // GET: Admin/Pages/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -83,7 +87,6 @@ namespace MyCms.Areas.Admin.Controllers
             return View(page);
         }
 
-        // POST: Admin/Pages/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -100,7 +103,6 @@ namespace MyCms.Areas.Admin.Controllers
             return View(page);
         }
 
-        // GET: Admin/Pages/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -115,7 +117,6 @@ namespace MyCms.Areas.Admin.Controllers
             return View(page);
         }
 
-        // POST: Admin/Pages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -131,6 +132,7 @@ namespace MyCms.Areas.Admin.Controllers
             if (disposing)
             {
                 pageRepository.Dispose();
+                pageGroupRepository.Dispose();
             }
             base.Dispose(disposing);
         }
