@@ -1,10 +1,11 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
     <h3>@ViewBag.Message</h3>
-
+</hgroup>
+<div>
     <address>
         One Microsoft Way<br />
         Redmond, WA 98052-6399<br />
@@ -13,7 +14,7 @@
     </address>
 
     <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+        <i class="icon-envelope"></i><strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+        <i class="icon-envelope"></i><strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
     </address>
-</main>
+</div>
